@@ -10,8 +10,8 @@ ros::Publisher numbers_publisher;
 ros::Subscriber roots_subscriber;
 
 bool calc_roots(ros_lab_1::Numbers_roots::Request  &req,
-         ros_lab_1::Numbers_roots::Response &res)
-{
+                ros_lab_1::Numbers_roots::Response &res)
+{  
   if((req.b*req.b - 4*req.a*req.c) > 0)
   {
     double root1;
@@ -22,17 +22,16 @@ bool calc_roots(ros_lab_1::Numbers_roots::Request  &req,
     res.roots.push_back(root2);
   }
   if ((req.b*req.b - 4*req.a*req.c) == 0)
-  {
+  {  
     float root;
     root = ( -1*req.b )/(2 * req.a);
     res.roots.push_back(root);
-   } 
+  } 
   std_msgs::Float32MultiArray result;
   result.data = res.roots;
   numbers_publisher.publish(result);
   return true;
-}
-
+} 
 void roots_callback(const std_msgs::Float32MultiArray::ConstPtr& msg)
 {
   int elements = 0;
@@ -48,14 +47,12 @@ void roots_callback(const std_msgs::Float32MultiArray::ConstPtr& msg)
   {
     ROS_INFO("x = %f",msg-> data[0]);
     return;
-   }
-  
-    ROS_INFO("x1 = %f,x2 = %f",
-    msg-> data[0],
-    msg-> data[1]);
-    return;
+  } 
+  ROS_INFO("x1 = %f,x2 = %f",
+  msg-> data[0],
+  msg-> data[1]);
+  return;
 }
-
 int main(int argc, char **argv)
 {
   ros::init(argc, argv, "find_roots");
